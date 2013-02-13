@@ -1,6 +1,87 @@
+<!DOCTYPE HTML>
+<html>
 <head>
 <title>PhoneGap Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link href="css/jqm.css" rel="stylesheet">
+<link href="css/jqmtheme.css" rel="stylesheet">
+<style type="text/css">
+#gmap
+{
+	margin: auto;
+	height: 200px;
+	width: 80%;
+}
+</style>
+<script type="text/javascript" src="phonegap.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jqm.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAzvoouN8pYwaHlhYpSa7-EEy3sjYNwpI&sensor=false"></script>
+<script type="text/javascript">
+var map;
+
+//init
+function init()
+{
+	console.log('asif :: init');
+	document.addEventListener("deviceready", devReady, true);
+}
+//DeviceReady
+function devReady()
+{
+	console.log("Asif :: devready");
+	$('#btnmap').click(function() {
+			console.log('click');
+			navigator.geolocation.getCurrentPosition(function(geo) {
+					init_map(geo.coords.latitude, geo.coords.longitude);
+				});
+		});
+}
+//Load Map, centered on latlng parameters
+function init_map(lat,lng)
+{
+	//lat = 43.465187;
+	//lng = -80.522372;
+	latlng = new google.maps.LatLng(lat,lng);
+	mopts = {
+		zoom: 14,
+		center: latlng,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	map = new google.maps.Map(document.getElementById("gmap"), mopts);
+	var marker = new google.maps.Marker({
+		position: latlng,
+		map: map,
+		title: "You"
+	});
+}
+//Add a marker
+function addmarker(lat,lng,tip,txt)
+{
+	var latlng = new google.maps.LatLng(lat,lng);
+	var info = new google.maps.InfoWindow({
+		content: txt
+	});
+	var marker = new google.maps.Marker({
+		position: latlng,
+		map: map,
+		title: tip
+	});
+	google.maps.event.addListener(marker, 'click', function() {
+	  info.open(map,marker);
+	});
+}
+</script>
 </head>
-<body>
-Bismillah
+<body onload="init();">
+	<div data-role="page" id="home">
+    	<div data-role="header" data-position="fixed">
+        	<h3>Bismillah</h3>
+		</div>
+        <div id="dvcon">
+        </div>
+        <div id="gmap"></div>
+        <button id="btnmap">Show Me on a Map!</button>
+    </div>
 </body>
+</html>

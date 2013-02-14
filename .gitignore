@@ -1,5 +1,6 @@
 cordova-2.4.0.js
 phonegap.js
+cdv-plugin-fb-connect.js
 builds/*
 _notes/*
 */_notes

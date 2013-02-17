@@ -33,7 +33,7 @@ function init()
 	console.log('asif :: init');
 	document.addEventListener("deviceready", devReady, true);
 	//Facebook
-	fbInit();
+	//fbInit();
 	$('.btnFB').click(function() { fbLogin(); });
 			
 }
@@ -48,6 +48,7 @@ function devReady()
 					init_map(geo.coords.latitude, geo.coords.longitude);
 				});
 		});
+	fbInit();
 }
 /*
 ---------------------------------------
@@ -106,6 +107,7 @@ function fbInit()
 {
 	if (!fbi)
 	{
+		/*
 		FB.init({
 				appId      : '497957010261019', // App ID
 				channelUrl : '//asifrc.com/channel.html', // Channel File
@@ -115,7 +117,8 @@ function fbInit()
 				xfbml      : true  // parse XFBML
 			});
 		fbi = true;
-		
+		*/
+		FB.init({ appId: "appid", nativeInterface: CDV.FB, useCachedDialogs: false });
 		// Additional initialization code here
 		FB.getLoginStatus(function(response) {
 				if (response.status === 'connected')
@@ -182,7 +185,7 @@ function fbStatusCheck()
 }
 </script>
 </head>
-<body onload="init();">
+<body onLoad="init();">
 <div id="fb-root"></div>
 	<div data-role="page" id="home">
     	<div data-role="header" data-position="fixed">

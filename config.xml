@@ -10,4 +10,7 @@
 		<author>
 			Asif R Choudhury
 		</author>
+		<gap:plugin name="FacebookConnect">
+		   <param name="APP_ID" value="497957010261019" />
+		 </gap:plugin>
 	</widget>

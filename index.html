@@ -9,34 +9,49 @@
 #gmap
 {
 	margin: auto;
-	height: 200px;
-	width: 80%;
+	height: 300px;
+	width: 100%;
 }
 </style>
 <script type="text/javascript" src="phonegap.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/jqm.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAzvoouN8pYwaHlhYpSa7-EEy3sjYNwpI&sensor=false"></script>
+<script type="text/javascript" src="cdv-plugin-fb-connect.js"></script>
+<script type="text/javascript" src="facebook_js_sdk.js"></script>
 <script type="text/javascript">
-var map;
-
+/*
+---------------------------------------
+Initialization
+---------------------------------------
+*/
 //init
 function init()
 {
 	console.log('asif :: init');
 	document.addEventListener("deviceready", devReady, true);
+	fbInit();
 }
 //DeviceReady
 function devReady()
 {
 	console.log("Asif :: devready");
+	//Google Maps
 	$('#btnmap').click(function() {
 			console.log('click');
 			navigator.geolocation.getCurrentPosition(function(geo) {
 					init_map(geo.coords.latitude, geo.coords.longitude);
 				});
 		});
+	//Facebook
 }
+/*
+---------------------------------------
+Google Maps
+---------------------------------------
+*/
+var map;
+
 //Load Map, centered on latlng parameters
 function init_map(lat,lng)
 {
@@ -71,17 +86,99 @@ function addmarker(lat,lng,tip,txt)
 	  info.open(map,marker);
 	});
 }
+
+
+/*
+---------------------------------------
+Facebook
+---------------------------------------
+*/
+//Facebook Login Status Variable
+var fbl = "not checked";
+var fbi = false;
+
+//Facebook Init
+function fbInit()
+{
+	if (!fbi)
+	{
+		FB.init({
+				appId      : '497957010261019', // App ID
+				channelUrl : '//www.asifrc.com/channel.html', // Channel File
+				status     : true, // check login status
+				cookie     : true, // enable cookies to allow the server to access the session
+				oauth      : true, // enable OAuth 2.0
+				xfbml      : true  // parse XFBML
+			});
+		fbi = true;
+		
+		// Additional initialization code here
+		FB.getLoginStatus(function(response) {
+				if (response.status === 'connected')
+				{
+					// connected
+					fbl = "connected";
+				}
+				else if (response.status === 'not_authorized')
+				{
+					// not_authorized
+					fbl = "not authorized";
+				}
+				else
+				{
+					// not_logged_in
+					fbl = "not logged in";
+				}					
+			});
+		fbLoginResponse();
+	}
+}
+
+//Check FB login
+function fbLoginResponse()
+{
+	if (fbl!="connected")
+	{
+		$('#fbstat').html(fbl);
+		if (fbl!="connected")
+		{
+			$(".fb-login-button").show();
+		}
+	}
+}
+function fbStatusCheck()
+{
+	FB.getLoginStatus(function(response) {
+	  if (response.status === 'connected') {
+		// connected
+		fbl = "connected";
+	  } else if (response.status === 'not_authorized') {
+		// not_authorized
+		fbl = "not authorized";
+	  } else {
+		// not_logged_in
+		fbl = "not logged in";
+	  }
+	  
+	});
+	$('#fbstat').html(fbl);
+}
 </script>
 </head>
 <body onload="init();">
+<div id="fb-root"></div>
 	<div data-role="page" id="home">
     	<div data-role="header" data-position="fixed">
         	<h3>Bismillah</h3>
 		</div>
         <div id="dvcon">
-        </div>
-        <div id="gmap"></div>
-        <button id="btnmap">Show Me on a Map!</button>
+            <div id="gmap"></div>
+            <button id="btnmap">Show Me on a Map!</button>
+            <hr>
+            <h3>Facebook Stuff</h3>
+            <div id="fbstat"></div>
+            <button id="fb-login-button">Log Into Facebook</button>
+		</div>
     </div>
 </body>
 </html>

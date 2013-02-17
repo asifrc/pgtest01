@@ -148,7 +148,7 @@ function fbInit()
 //FB Login
 function fbLogin()
 {
-	CDV.FB.login(function(response) {
+	CDV.FB.login({scope: ''}, function(response) {
 			if (response.authResponse)
 			{
 				//var access_token =   FB.getAuthResponse()['accessToken'];

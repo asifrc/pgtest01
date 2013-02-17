@@ -25,12 +25,17 @@
 Initialization
 ---------------------------------------
 */
+var asif;
+
 //init
 function init()
 {
 	console.log('asif :: init');
 	document.addEventListener("deviceready", devReady, true);
+	//Facebook
 	fbInit();
+	$('.btnFB').click(function() { fbLogin(); });
+			
 }
 //DeviceReady
 function devReady()
@@ -43,7 +48,6 @@ function devReady()
 					init_map(geo.coords.latitude, geo.coords.longitude);
 				});
 		});
-	//Facebook
 }
 /*
 ---------------------------------------
@@ -104,7 +108,7 @@ function fbInit()
 	{
 		FB.init({
 				appId      : '497957010261019', // App ID
-				channelUrl : '//www.asifrc.com/channel.html', // Channel File
+				channelUrl : '//asifrc.com/channel.html', // Channel File
 				status     : true, // check login status
 				cookie     : true, // enable cookies to allow the server to access the session
 				oauth      : true, // enable OAuth 2.0
@@ -133,7 +137,20 @@ function fbInit()
 		fbLoginResponse();
 	}
 }
-
+//FB Login
+function fbLogin()
+{
+	FB.login(function(response) {
+			if (response.authResponse)
+			{
+				var access_token =   FB.getAuthResponse()['accessToken'];
+				FB.api('/me', function(data) {
+						asif = data;
+						$('#fbstat').html("Hello "+asif.name);
+					});
+			}
+		});
+}
 //Check FB login
 function fbLoginResponse()
 {
@@ -142,7 +159,7 @@ function fbLoginResponse()
 		$('#fbstat').html(fbl);
 		if (fbl!="connected")
 		{
-			$(".fb-login-button").show();
+			$(".btnfb").show();
 		}
 	}
 }
@@ -177,7 +194,7 @@ function fbStatusCheck()
             <hr>
             <h3>Facebook Stuff</h3>
             <div id="fbstat"></div>
-            <button id="fb-login-button">Log Into Facebook</button>
+            <button class="btnFB">Log Into Facebook</button>
 		</div>
     </div>
 </body>

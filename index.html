@@ -148,9 +148,12 @@ function fbInit()
 //FB Login
 function fbLogin()
 {
+	console.log("logging in");
 	CDV.FB.login({scope: ''}, function(response) {
+			console.log('logged in');
 			if (response.authResponse)
 			{
+				console.log('sending api request');
 				//var access_token =   FB.getAuthResponse()['accessToken'];
 				access_token =   response.authResponse.accessToken;
 				FB.api('/me', function(data) {
@@ -158,6 +161,8 @@ function fbLogin()
 						$('#fbstat').html("Hello "+asif.name);
 					});
 			}
+		}, function(response) {
+				console.log('didnt make it');
 		});
 }
 //Check FB login

@@ -34,7 +34,7 @@ function init()
 	document.addEventListener("deviceready", devReady, true);
 	//Facebook
 	//fbInit();
-	$('.btnFB').click(function() { fbLogin(); });
+	
 			
 }
 //DeviceReady
@@ -48,7 +48,10 @@ function devReady()
 					init_map(geo.coords.latitude, geo.coords.longitude);
 				});
 		});
-	fbInit();
+		
+	//Facebook CDV
+	CDV.FB.init("497957010261019");
+	$('#btnfb').click(function() { fbLogin(); });
 }
 /*
 ---------------------------------------
@@ -105,7 +108,7 @@ var fbi = false;
 //Facebook Init
 function fbInit()
 {
-	if (1==2)
+	if (!fbi)
 	{
 		/*
 		FB.init({
@@ -119,7 +122,9 @@ function fbInit()
 		fbi = true;
 		*/
 		//FB.init({ appId: "497957010261019", nativeInterface: CDV.FB, useCachedDialogs: false });
+		//CDV.FB.init("497957010261019");
 		// Additional initialization code here
+		/*
 		FB.getLoginStatus(function(response) {
 				if (response.status === 'connected')
 				{
@@ -137,16 +142,17 @@ function fbInit()
 					fbl = "not logged in";
 				}					
 			});
-		fbLoginResponse();
+		fbLoginResponse();*/
 	}
 }
 //FB Login
 function fbLogin()
 {
-	FB.login(function(response) {
+	CDV.FB.login(function(response) {
 			if (response.authResponse)
 			{
-				var access_token =   FB.getAuthResponse()['accessToken'];
+				//var access_token =   FB.getAuthResponse()['accessToken'];
+				access_token =   response.authResponse.accessToken;
 				FB.api('/me', function(data) {
 						asif = data;
 						$('#fbstat').html("Hello "+asif.name);
@@ -162,7 +168,7 @@ function fbLoginResponse()
 		$('#fbstat').html(fbl);
 		if (fbl!="connected")
 		{
-			$(".btnfb").show();
+			$("#btnfb").show();
 		}
 	}
 }
@@ -197,7 +203,7 @@ function fbStatusCheck()
             <hr>
             <h3>Facebook Stuff</h3>
             <div id="fbstat"></div>
-            <button class="btnFB">Log Into Facebook</button>
+            <button id="btnfb">Log Into Facebook</button>
 		</div>
     </div>
 </body>

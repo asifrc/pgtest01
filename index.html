@@ -51,7 +51,7 @@ function devReady()
 		
 	//Facebook CDV
 	CDV.FB.init("497957010261019");
-	$('.btnFB').click(function() { fbLogin(); });
+	$('#btnfb').click(function() { fbLogin(); });
 }
 /*
 ---------------------------------------
@@ -168,7 +168,7 @@ function fbLoginResponse()
 		$('#fbstat').html(fbl);
 		if (fbl!="connected")
 		{
-			$(".btnfb").show();
+			$("#btnfb").show();
 		}
 	}
 }
@@ -203,7 +203,7 @@ function fbStatusCheck()
             <hr>
             <h3>Facebook Stuff</h3>
             <div id="fbstat"></div>
-            <button class="btnFB">Log Into Facebook</button>
+            <button id="btnfb">Log Into Facebook</button>
 		</div>
     </div>
 </body>

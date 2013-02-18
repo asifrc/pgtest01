@@ -1,220 +1,28 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-<head>
-<title>PhoneGap Test</title>
-<meta name="viewport" content="width=device-width, initial-scale=1"> 
-<link href="css/jqm.css" rel="stylesheet">
-<link href="css/jqmtheme.css" rel="stylesheet">
-<style type="text/css">
-#gmap
-{
-	margin: auto;
-	height: 300px;
-	width: 100%;
-}
-</style>
-<script type="text/javascript" src="phonegap.js"></script>
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/jqm.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAzvoouN8pYwaHlhYpSa7-EEy3sjYNwpI&sensor=false"></script>
-<script type="text/javascript" src="cdv-plugin-fb-connect.js"></script>
-<script type="text/javascript" src="facebook_js_sdk.js"></script>
-<script type="text/javascript">
-/*
----------------------------------------
-Initialization
----------------------------------------
-*/
-var asif;
-
-//init
-function init()
-{
-	console.log('asif :: init');
-	//document.addEventListener("deviceready", devReady, true);
-	//Facebook
-	//fbInit();
-	
-			
-}
-//DeviceReady
-function devReady()
-{
-	console.log("Asif :: devready");
-	//Google Maps
-	$('#btnmap').click(function() {
-			console.log('click');
-			navigator.geolocation.getCurrentPosition(function(geo) {
-					init_map(geo.coords.latitude, geo.coords.longitude);
-				});
-		});
-		
-	//Facebook CDV
-	CDV.FB.init("497957010261019");
-	$('#btnfb').click(function() { fbLogin(); });
-}
-/*
----------------------------------------
-Google Maps
----------------------------------------
-*/
-var map;
-
-//Load Map, centered on latlng parameters
-function init_map(lat,lng)
-{
-	//lat = 43.465187;
-	//lng = -80.522372;
-	latlng = new google.maps.LatLng(lat,lng);
-	mopts = {
-		zoom: 14,
-		center: latlng,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
-	map = new google.maps.Map(document.getElementById("gmap"), mopts);
-	var marker = new google.maps.Marker({
-		position: latlng,
-		map: map,
-		title: "You"
-	});
-}
-//Add a marker
-function addmarker(lat,lng,tip,txt)
-{
-	var latlng = new google.maps.LatLng(lat,lng);
-	var info = new google.maps.InfoWindow({
-		content: txt
-	});
-	var marker = new google.maps.Marker({
-		position: latlng,
-		map: map,
-		title: tip
-	});
-	google.maps.event.addListener(marker, 'click', function() {
-	  info.open(map,marker);
-	});
-}
-
-
-/*
----------------------------------------
-Facebook
----------------------------------------
-*/
-//Facebook Login Status Variable
-var fbl = "not checked";
-var fbi = false;
-
-//Facebook Init
-function fbInit()
-{
-	if (!fbi)
-	{
-		/*
-		FB.init({
-				appId      : '497957010261019', // App ID
-				channelUrl : '//asifrc.com/channel.html', // Channel File
-				status     : true, // check login status
-				cookie     : true, // enable cookies to allow the server to access the session
-				oauth      : true, // enable OAuth 2.0
-				xfbml      : true  // parse XFBML
-			});
-		fbi = true;
-		*/
-		//FB.init({ appId: "497957010261019", nativeInterface: CDV.FB, useCachedDialogs: false });
-		//CDV.FB.init("497957010261019");
-		// Additional initialization code here
-		/*
-		FB.getLoginStatus(function(response) {
-				if (response.status === 'connected')
-				{
-					// connected
-					fbl = "connected";
-				}
-				else if (response.status === 'not_authorized')
-				{
-					// not_authorized
-					fbl = "not authorized";
-				}
-				else
-				{
-					// not_logged_in
-					fbl = "not logged in";
-				}					
-			});
-		fbLoginResponse();*/
-	}
-}
-//FB Login
-function fbLogin()
-{
-	console.log("logging in");
-	CDV.FB.login({scope: ''}, function(response) {
-			console.log('logged in');
-			if (response.authResponse)
-			{
-				console.log('sending api request');
-				//var access_token =   FB.getAuthResponse()['accessToken'];
-				access_token =   response.authResponse.accessToken;
-				FB.api('/me', function(data) {
-						asif = data;
-						$('#fbstat').html("Hello "+asif.name);
-					});
-			}
-		}, function(response) {
-				console.log('didnt make it');
-		});
-}
-//Check FB login
-function fbLoginResponse()
-{
-	if (fbl!="connected")
-	{
-		$('#fbstat').html(fbl);
-		if (fbl!="connected")
-		{
-			$("#btnfb").show();
-		}
-	}
-}
-function fbStatusCheck()
-{
-	FB.getLoginStatus(function(response) {
-	  if (response.status === 'connected') {
-		// connected
-		fbl = "connected";
-	  } else if (response.status === 'not_authorized') {
-		// not_authorized
-		fbl = "not authorized";
-	  } else {
-		// not_logged_in
-		fbl = "not logged in";
-	  }
-	  
-	});
-	$('#fbstat').html(fbl);
-}
-</script>
-</head>
-<body onLoad="init();">
-<div id="fb-root"></div>
-	<div data-role="page" id="home">
-    	<div data-role="header" data-position="fixed">
-        	<h3>Bismillah</h3>
-		</div>
-        <div id="dvcon">
-            <div id="gmap"></div>
-            <button id="btnmap">Show Me on a Map!</button>
-            <hr>
-            <h3>Facebook Stuff</h3>
-            <div id="fbstat"></div>
-            <button id="btnfb" onClick="login();">Log Into Facebook</button>
-            <script type="text/javascript">
+	<head>
+    </head>
+	<body>
+		<button onClick="login()">Login</button>
+		<button onClick="me()">Me</button>
+		<button onClick="getLoginStatus()">Get login</button>
+		<button onClick="logout()">Logout</button>
+        
+        <div id="data">loading ...</div>
+        <div id="fb-root"></div>
+        <!-- cordova -->
+		<script type="text/javascript" src="phonegap.js"></script>
+	    <!-- cordova facebook plugin -->
+		<script type="text/javascript" src="cdv-plugin-fb-connect.js"></script>
+	    <!-- facebook js sdk -->
+		<script type="text/javascript" src="facebook-js-sdk.js"></script>
+        
+		<script type="text/javascript">
             
             if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
             if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
             if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
-            alert('this part reached :)');
+            
             FB.Event.subscribe('auth.login', function(response) {
                                alert('auth.login event');
                                });
@@ -290,22 +98,19 @@ function fbStatusCheck()
                          },
                          { scope: "email" }
                          );
-				}
-			//Device Ready
-			document.addEventListener('deviceready', function() {
-					try
-					{
-						alert('Device is ready! Make sure you set your app_id below this alert.');
-						FB.init({ appId: "497957010261019", nativeInterface: CDV.FB, useCachedDialogs: false });
-						document.getElementById('data').innerHTML = "";
-					}
-					catch (e)
-					{
-						alert(e);
-					}
-				}, false);
+            }
+
+            
+            document.addEventListener('deviceready', function() {
+                                      try {
+                                      alert('Device is ready! Make sure you set your app_id below this alert.');
+                                      FB.init({ appId: "497957010261019", nativeInterface: CDV.FB, useCachedDialogs: false });
+                                      document.getElementById('data').innerHTML = "";
+                                      } catch (e) {
+                                      alert(e);
+                                      }
+                                      }, false);
             </script>
-		</div>
-    </div>
-</body>
+        <div id="log"></div>
+	</body>
 </html>

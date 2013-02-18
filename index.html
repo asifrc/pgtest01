@@ -217,15 +217,13 @@ function fbStatusCheck()
             <hr>
             <h3>Facebook Stuff</h3>
             <div id="fbstat"></div>
-            <button id="btnfb">Log Into Facebook</button>
-		</div>
-    </div>
-<script type="text/javascript">
+            <button id="btnfb" onClick="login();">Log Into Facebook</button>
+            <script type="text/javascript">
             
             if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
             if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
             if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
-            
+            alert('this part reached :)');
             FB.Event.subscribe('auth.login', function(response) {
                                alert('auth.login event');
                                });
@@ -301,6 +299,9 @@ function fbStatusCheck()
                          },
                          { scope: "email" }
                          );
+				}
             </script>
+		</div>
+    </div>
 </body>
 </html>

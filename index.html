@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html>
-	<head>
-    </head>
-	<body>
+<head>
+</head>
+<body>
+	<div data-role="page" id="home">
+    	<div data-role="header" data-position="fixed">
+        	<h3>Bismillah</h3>
+		</div>
+        <div id="dvcon">
+            <div id="gmap"></div>
+            <button id="btnmap">Show Me on a Map!</button>
+            <hr>
+            <h3>Facebook Stuff</h3>
+            <div id="fbstat"></div>
+            <button id="btnfb" onClick="login();">Log Into Facebook</button>
 		<button onClick="login()">Login</button>
 		<button onClick="me()">Me</button>
 		<button onClick="getLoginStatus()">Get login</button>
@@ -112,5 +123,8 @@
                                       }, false);
             </script>
         <div id="log"></div>
+        </div>
+</div>
+
 	</body>
 </html>

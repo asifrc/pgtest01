@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>PhoneGap Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link href="css/jqm.css" rel="stylesheet">
+<link href="css/jqmtheme.css" rel="stylesheet">
+<style type="text/css">
+#gmap
+{
+	margin: auto;
+	height: 200px;
+	width: 80%;
+}
+</style>
 </head>
 <body>
 	<div data-role="page" id="home">
@@ -23,6 +35,13 @@
         <div id="fb-root"></div>
         <!-- cordova -->
 		<script type="text/javascript" src="phonegap.js"></script>
+        <!-- jQuery -->
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <!--jQuery Mobile -->
+        <script type="text/javascript" src="js/jqm.js"></script>
+        <!-- Google Maps API -->
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAzvoouN8pYwaHlhYpSa7-EEy3sjYNwpI&sensor=false"></script>
+        
 	    <!-- cordova facebook plugin -->
 		<script type="text/javascript" src="cdv-plugin-fb-connect.js"></script>
 	    <!-- facebook js sdk -->
